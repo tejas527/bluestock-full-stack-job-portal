@@ -10,7 +10,7 @@ const Admin = () => {
         queryKey: ["admin_info"],
         queryFn: () =>
             getAllHandler(
-                `https://job-portal-server-theta-olive.vercel.app/api/admin/info`
+                `https://full-stack-job-portal-server-main.vercel.app/api/admin/info`
             ),
     });
 

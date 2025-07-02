@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 const corsOptions = {
-    origin: "https://full-stack-job-portal-client-main.vercel.app/",
+    origin: "https://full-stack-job-portal-client-main.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type", "X-Client-Platform", "Authorization"],

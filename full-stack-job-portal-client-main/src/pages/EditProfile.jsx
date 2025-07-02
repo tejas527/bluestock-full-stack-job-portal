@@ -56,7 +56,7 @@ const EditProfile = () => {
             }
 
             const response = await axios.patch(
-                `https://job-portal-server-theta-olive.vercel.app/api/users/update`,
+                `https://full-stack-job-portal-server-main.vercel.app/api/users/update`,
                 updateUser,
                 {
                     withCredentials: true,
@@ -83,7 +83,7 @@ const EditProfile = () => {
     const fetchEducation = async () => {
         try {
             const response = await axios.get(
-                "https://job-portal-server-theta-olive.vercel.app/api/education",
+                "https://full-stack-job-portal-server-main.vercel.app/api/education",
                 { withCredentials: true }
             );
             setEducation(response.data.result);

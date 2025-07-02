@@ -28,7 +28,7 @@ const Login = () => {
         setIsLoading(true);
         try {
             const response = await axios.post(
-                "https://job-portal-server-theta-olive.vercel.app/api/auth/login",
+                "https://full-stack-job-portal-server-main.vercel.app/api/auth/login",
                 data,
                 {
                     withCredentials: true,
@@ -63,7 +63,7 @@ const Login = () => {
 
             // Send Google user data to your backend for verification
             const response = await axios.post(
-                "https://job-portal-server-theta-olive.vercel.app/api/auth/google",
+                "https://full-stack-job-portal-server-main.vercel.app/api/auth/google",
                 {
                     email: user.email,
                     google_uid: user.uid,
@@ -165,7 +165,7 @@ const Login = () => {
                 </form>
                 <div className="">
                     <p className="text-center text-[10px] font-semibold opacity-9 mt-3">
-                        Don't have an account.
+                        Don&apos;t have an account.
                         <Link className="ml-1 link" to="/register">
                             Create account
                         </Link>
