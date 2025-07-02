@@ -12,7 +12,7 @@ const UserContext = ({ children }) => {
         setUserLoading(true);
         try {
             const response = await axios.get(
-                `https://job-portal-server-theta-olive.vercel.app/api/auth/me`,
+                `https://full-stack-job-portal-server-main.vercel.app/api/auth/me`,
                 { withCredentials: true }
             );
             setUserError({ status: false, message: "" });
@@ -28,7 +28,7 @@ const UserContext = ({ children }) => {
         setUserLoading(true);
         try {
             const response = await axios.post(
-                "https://job-portal-server-theta-olive.vercel.app/api/auth/google",
+                "https://full-stack-job-portal-server-main.vercel.app/api/auth/google",
                 {
                     email: googleUser.email,
                     full_name: googleUser.displayName,

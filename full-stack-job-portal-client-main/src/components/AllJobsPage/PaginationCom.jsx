@@ -14,7 +14,7 @@ const PaginationCom = () => {
         // );
         // setItemOffset(newOffset);
         handleJobFetch(
-            `https://job-portal-server-theta-olive.vercel.app/api/jobs?page=${
+            `https://full-stack-job-portal-server-main.vercel.app/api/jobs?page=${
                 e.selected + 1
             }&limit=5`
         );

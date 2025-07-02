@@ -19,7 +19,7 @@ const Recruiter = () => {
         queryKey: ["rec-jobs"],
         queryFn: async () => {
             const response = await axios.get(
-                `https://job-portal-server-theta-olive.vercel.app/api/application/recruiter-jobs`,
+                `https://full-stack-job-portal-server-main.vercel.app/api/application/recruiter-jobs`,
                 {
                     withCredentials: true,
                 }
@@ -32,7 +32,7 @@ const Recruiter = () => {
         mutationFn: ({ id, recruiter_id, status }) => 
             updateHandler({
                 body: { recruiter_id, status },
-                url: `https://job-portal-server-theta-olive.vercel.app/api/application/${id}`
+                url: `https://full-stack-job-portal-server-main.vercel.app/api/application/${id}`
             }),
         onSuccess: (data) => {
             queryClient.invalidateQueries(["rec-jobs"]);

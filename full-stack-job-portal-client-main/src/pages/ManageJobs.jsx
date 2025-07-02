@@ -22,7 +22,7 @@ const ManageJobs = () => {
         queryKey: ["my-jobs"],
         queryFn: () =>
             getAllHandler(
-                `https://job-portal-server-theta-olive.vercel.app/api/jobs/my-jobs`
+                `https://full-stack-job-portal-server-main.vercel.app/api/jobs/my-jobs`
             ),
     });
 

@@ -14,7 +14,7 @@ const Applicant = () => {
         queryKey: ["my-jobs"],
         queryFn: async () => {
             const response = await axios.get(
-                `https://job-portal-server-theta-olive.vercel.app/api/application/applicant-jobs`,
+                `https://full-stack-job-portal-server-main.vercel.app/api/application/applicant-jobs`,
                 { withCredentials: true }
             );
             return response?.data?.result;

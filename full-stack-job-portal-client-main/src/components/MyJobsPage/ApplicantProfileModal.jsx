@@ -9,7 +9,7 @@ const ApplicantProfileModal = ({ user, onClose }) => {
         <ModalOverlay>
             <ModalContent>
                 <ModalHeader>
-                    <h3>{user.username}'s Profile</h3>
+                    <h3>{user.username}&apos;s Profile</h3>
                     <CloseButton onClick={onClose}>
                         <FaTimes />
                     </CloseButton>

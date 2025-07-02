@@ -52,7 +52,7 @@ const JobCard = ({ job }) => {
         };
         try {
             const response = await postHandler({
-                url: "https://job-portal-server-theta-olive.vercel.app/api/application/apply",
+                url: "https://full-stack-job-portal-server-main.vercel.app/api/application/apply",
                 body: appliedJob,
             });
             Swal.fire({

@@ -17,7 +17,7 @@ const SearchAndFilter = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
-        const baseUrl = "https://job-portal-server-theta-olive.vercel.app/api/jobs?page=1&limit=5";
+        const baseUrl = "https://full-stack-job-portal-server-main.vercel.app/api/jobs?page=1&limit=5";
         let url = baseUrl;
         const queryParams = {};
 
@@ -43,7 +43,7 @@ const SearchAndFilter = () => {
         }
         
         handleJobFetch(url);
-    }, [typeFilter, statusFilter, sortBy, searchQuery, visibilityFilter, user?.role]);
+    }, [typeFilter, statusFilter, sortBy, searchQuery, visibilityFilter, user?.role,handleJobFetch]);
 
     return (
         <Wrapper>

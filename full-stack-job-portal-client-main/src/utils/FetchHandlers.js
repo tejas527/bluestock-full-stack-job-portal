@@ -29,7 +29,7 @@ export const deleteHandler = async (url) => {
 
 export const googleAuthHandler = async (googleData) => {
     return await axios.post(
-        "https://job-portal-server-theta-olive.vercel.app/api/auth/google",
+        "https://full-stack-job-portal-server-main.vercel.app/api/auth/google",
         googleData,
         { withCredentials: true }
     );
