@@ -4,8 +4,14 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+const isProd = process.env.NODE_ENV === "production";
+
+const allowedOrigins = isProd
+  ? ["https://full-stack-job-portal-client-main.vercel.app"]
+  : ["http://localhost:5173"];
+
 const corsOptions = {
-    origin: "https://full-stack-job-portal-client-main.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type", "X-Client-Platform", "Authorization"],

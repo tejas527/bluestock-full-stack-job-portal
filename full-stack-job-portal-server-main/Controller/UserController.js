@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const JWTGenerator = require("../Utils/JWTGenerator");
 const { findOrCreateGoogleUser } = require("../Model/UserModel");
 
+const isProd = process.env.NODE_ENV === "production";
+
 // GET all users (excluding password)
 const getAllUser = async (req, res, next) => {
     try {
@@ -75,10 +77,10 @@ const googleAuth = async (req, res, next) => {
 
         res.cookie(process.env.COOKIE_NAME, token, {
             expires: new Date(Date.now() + threeMonths),
-            secure: true,
+            secure: isProd,
             httpOnly: true,
             signed: true,
-            sameSite: "None",
+            sameSite: isProd ? "None" : "Lax",
         });
 
         console.log(`[GOOGLE_AUTH] Platform: ${req.clientPlatform} | Email: ${email} | UID: ${google_uid}`);
@@ -103,8 +105,8 @@ const googleAuth = async (req, res, next) => {
 const logOut = async (req, res, next) => {
     try {
         res.cookie(process.env.COOKIE_NAME, "", {
-            sameSite: "none",
-            secure: true,
+            sameSite: isProd ? "None" : "Lax",
+            secure: isProd,
             httpOnly: true,
             expires: new Date(0),
             path: "/",
@@ -174,10 +176,10 @@ const loginUser = async (req, res, next) => {
 
         res.cookie(process.env.COOKIE_NAME, token, {
             expires: new Date(Date.now() + threeMonths),
-            secure: true,
+            secure: isProd,
             httpOnly: true,
             signed: true,
-            sameSite: "None",
+            sameSite: isProd ? "None" : "Lax",
         });
 
         console.log(`[LOGIN] Platform: ${req.clientPlatform} | Email: ${email}`);

@@ -46,7 +46,7 @@ const Login = () => {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: error?.response?.data,
+                text: error?.response?.data?.message || error?.response?.data || error.message,
             });
         }
         setIsLoading(false);
@@ -87,7 +87,7 @@ const Login = () => {
             Swal.fire({
                 icon: "error",
                 title: "Google Sign In Failed",
-                text: error.message,
+                text: error?.response?.data?.message || error.message,
             });
         }
         setIsGoogleLoading(false);
