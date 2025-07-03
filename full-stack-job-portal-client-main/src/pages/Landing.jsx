@@ -8,6 +8,7 @@ import HowWorks from "../components/Home Page/HowWorks";
 import Team from "../components/Home Page/Team";
 import Brands from "../components/Home Page/Brands";
 import Testimonial from "../components/Home Page/Testimonial";
+import Categories from "../components/Home Page/Categories";
 
 const Landing = () => {
     const navbarRef = useRef(null);
@@ -46,11 +47,12 @@ const Landing = () => {
                 </div>
             </Wrapper>
             <div>
-            <PopularCategory/>
-            <HowWorks/>
-            <Team/>
-            <Testimonial/>
-            <Brands/>
+                <Categories />
+                <PopularCategory/>
+                <HowWorks/>
+                <Team/>
+                <Testimonial/>
+                <Brands/>
             </div>
         </>
     );
