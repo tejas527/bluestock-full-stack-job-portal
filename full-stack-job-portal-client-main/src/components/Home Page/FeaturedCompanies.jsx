@@ -65,6 +65,11 @@ const FeaturedCompanies = () => {
         </div>
         ))}
       </div>
+      <div className="flex justify-center mt-3">
+        <button className="bg-white text-blue-600 border border-blue-600 px-6 py-3 rounded-full font-medium hover:bg-blue-50 hover:shadow-sm transition duration-200">
+            View All Companies
+        </button>
+      </div>
     </div>
   );
 };
