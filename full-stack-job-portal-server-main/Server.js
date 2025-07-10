@@ -5,7 +5,7 @@ const app = require("./App");
 const connectDB = require("./Utils/DBconnect");
 connectDB(); // Call the async function to connect to PostgreSQL
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.get("/", (req, res) => {
     res.send("Job Hunter Server is running!");

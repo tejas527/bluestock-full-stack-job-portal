@@ -34,6 +34,8 @@ const AuthRouter = require("./Router/AuthRouter");
 const AdminRouter = require("./Router/AdminRouter");
 const ApplicationRouter = require("./Router/ApplicationRouter");
 const EducationRouter = require("./Router/EducationRouter");
+const PublicCompanyRouter = require("./Router/PublicCompanyRouter");
+const PrivateCompanyRouter = require("./Router/PrivateCompanyRouter");
 
 app.use("/api/jobs", authenticateUser, JobRouter);
 app.use("/api/users", authenticateUser, UserRouter);
@@ -41,5 +43,7 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/admin", authenticateUser, AdminRouter);
 app.use("/api/application", authenticateUser, ApplicationRouter);
 app.use("/api/education", authenticateUser, EducationRouter);
+app.use("/api/company", PublicCompanyRouter);  // open to all
+app.use("/api/company/protected", PrivateCompanyRouter); 
 
 module.exports = app;
