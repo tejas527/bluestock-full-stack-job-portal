@@ -1,10 +1,11 @@
 import React,{useState,useRef} from "react";
 import { useCompanyContext } from "../../context/CompanyContext";
 import CompanyRegistrationLayout from "../../Layout/CompanyRegistrationLayout";
+import { PiLinkSimpleBold } from "react-icons/pi";
 
-const FileUpload = ({  description, onFileChange }) => {
-  const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(null);
+const FileUpload = ({  description, onFileChange, initialFile }) => {
+  const [file, setFile] = useState(initialFile);
+  const [preview, setPreview] = useState(initialFile ? URL.createObjectURL(initialFile) : null);
   const inputRef = useRef();
 
   const handleFileChange = (selectedFile) => {
@@ -12,9 +13,7 @@ const FileUpload = ({  description, onFileChange }) => {
       setFile(selectedFile);
       onFileChange(selectedFile);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
+      reader.onloadend = () => setPreview(reader.result);
       reader.readAsDataURL(selectedFile);
     }
   };
@@ -48,7 +47,7 @@ const FileUpload = ({  description, onFileChange }) => {
       onDragOver={onDragOver}
       onDrop={onDrop}
     >
-      <input type="file" ref={inputRef} onChange={onFileSelect} accept="image/*" className="hidden" />
+      <input type="file" ref={inputRef} onChange={(e) => handleFileChange(e.target.files[0])} accept="image/*" className="hidden" />
       {preview ? (
         <>
           <img src={preview} alt="Preview" className="mx-auto h-24 object-contain" />
@@ -109,20 +108,14 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
   );
 };
 
-const Step1 = ({ onNext }) => {
-  const [logo, setLogo] = useState(null);
-  const [banner, setBanner] = useState(null);
-  const [companyName, setCompanyName] = useState("");
-  const [aboutUs, setAboutUs] = useState("");
+const Step1 = ({ onNext, formData }) => {
+  const [logo, setLogo] = useState(formData.logo || null);
+  const [banner, setBanner] = useState(formData.banner || null);
+  const [companyName, setCompanyName] = useState(formData?.companyName || "");
+  const [aboutUs, setAboutUs] = useState(formData.aboutUs || "");
 
   const handleNextClick = () => {
-    const step1Data = {
-      logo,
-      banner,
-      companyName,
-      aboutUs,
-    };
-    onNext(step1Data);
+    onNext({ logo, banner, companyName, aboutUs });
   };
 
   return (
@@ -133,6 +126,7 @@ const Step1 = ({ onNext }) => {
           <h3 className="text-sm font-semibold text-gray-600 mb-2">Upload Logo</h3>
           <FileUpload 
             onFileChange={setLogo}
+            initialFile={logo}
             title="Upload Logo" 
             description="A photo larger than 400 pixels works best. Max photo size 5 MB." 
           />
@@ -141,6 +135,7 @@ const Step1 = ({ onNext }) => {
           <h3 className="text-sm font-semibold text-gray-600 mb-2">Upload Banner</h3>
           <FileUpload 
             onFileChange={setBanner}
+            initialFile={banner}
             title="Banner Image" 
             description="Banner images optimal dimension 1320x400. Supported formats: JPEG, PNG. Max photo size 5 MB." 
           />
@@ -154,11 +149,11 @@ const Step1 = ({ onNext }) => {
         </div>
         <div>
           <label htmlFor="aboutUs" className="block text-sm font-medium text-gray-700 mb-1">About Us</label>
-          <RichTextEditor placeholder="Write down about your company here..." />
+          <RichTextEditor value={aboutUs} onChange={setAboutUs} placeholder="Write down about your company here..." />
         </div>
       </div>
       <div className="mt-8 flex justify-start">
-        <button onClick={onNext} className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-sm hover:bg-blue-700 transition duration-300 flex items-center">
+        <button onClick={handleNextClick} className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-sm hover:bg-blue-700 transition duration-300 flex items-center">
           Save & Next <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
         </button>
       </div>
@@ -166,46 +161,73 @@ const Step1 = ({ onNext }) => {
   );
 };
 
-const Step2 = ({ onNext, onPrev }) => {
+const Step2 = ({ onNext, onPrev, formData }) => {
+  const [orgType, setOrgType] = useState(formData.orgType || "");
+  const [industry, setIndustry] = useState(formData.industry || "");
+  const [teamSize, setTeamSize] = useState(formData.teamSize || "");
+  const [establishmentYear, setEstablishmentYear] = useState(formData.establishmentYear || "");
+  const [website, setWebsite] = useState(formData.website || "");
+  const [vision, setVision] = useState(formData.vision || "");
+
+  const collectData = () => ({ orgType, industry, teamSize, establishmentYear, website, vision });
+
+  const handleDateChange = (e) => {
+    const prevValue = establishmentYear || '';
+    let value = e.target.value;
+    value = value.replace(/[^\d/]/g, '');
+    if (value.length < prevValue.length) {
+      setEstablishmentYear(value);
+      return;
+    }
+    if (value.length === 2 || value.length === 5) {
+      value += '/';
+    }
+    setEstablishmentYear(value.slice(0, 10));
+  };
+
   return (
     <div className="bg-white p-8 rounded-lg shadow-sm w-full">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Organization Type</label>
-          <select className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 appearance-none"><option>Select...</option></select>
+          <select value={orgType} onChange={e => setOrgType(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 appearance-none"><option>Select...</option></select>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Industry Types</label>
-          <select className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 appearance-none"><option>Select...</option></select>
+          <select value={industry} onChange={e => setIndustry(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 appearance-none"><option>Select...</option></select>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Team Size</label>
-          <select className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 appearance-none"><option>Select...</option></select>
+          <select value={teamSize} onChange={e => setTeamSize(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 appearance-none"><option>Select...</option></select>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Year of Establishment</label>
           <div className="relative">
-            <input type="text" placeholder="dd/mm/yyyy" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></span>
+            <input type="text" value={establishmentYear} onChange={handleDateChange} placeholder="dd/mm/yyyy" maxLength="10" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+            <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </span>
           </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
           <div className="relative">
-            <input type="text" placeholder="Website url..." className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></span>
+            <input type="text" value={website} onChange={e => setWebsite(e.target.value)} placeholder="Website url..." className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+              <PiLinkSimpleBold color="blue"/>
+            </span>
           </div>
         </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Company Vision</label>
-        <RichTextEditor placeholder="Tell us about your company vision..." />
+        <RichTextEditor value={vision} onChange={setVision} placeholder="Tell us about your company vision..." />
       </div>
       <div className="mt-8 flex justify-start space-x-4">
-        <button onClick={onPrev} className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-sm hover:bg-gray-300 transition duration-300">Previous</button>
-        <button onClick={onNext} className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-sm hover:bg-blue-700 transition duration-300 flex items-center">Save & Next <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg></button>
+        <button onClick={() => onPrev(collectData())} className="bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-sm hover:bg-gray-300 transition duration-300">Previous</button>
+        <button onClick={() => onNext(collectData())} className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-sm hover:bg-blue-700 transition duration-300 flex items-center">Save & Next <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg></button>
       </div>
     </div>
   );
@@ -299,23 +321,24 @@ const Registration = () => {
   const { formData, setFormData } = useCompanyContext();
   const [step, setStep] = useState(1);
 
-  const handleNext = (newData) => {
-    setFormData({ ...formData, ...newData });
-    setStep((prev) => Math.min(prev + 1, 5)); 
-  };
-
-  const handlePrev = () => {
-    setStep((prev) => Math.max(prev - 1, 1)); 
+  const handleNavigate = (newData, nextStep) => {
+    setFormData(prevData => ({ ...prevData, ...newData }));
+    setStep(nextStep);
   };
 
   const renderStep = () => {
+    const stepProps = {
+        formData,
+        onNext: (data) => handleNavigate(data, step + 1),
+        onPrev: (data) => handleNavigate(data, step - 1),
+    };
     switch (step) {
-      case 1: return <Step1 onNext={handleNext} />;
-      case 2: return <Step2 onNext={handleNext} onPrev={handlePrev} />;
-      case 3: return <Step3 onNext={handleNext} onPrev={handlePrev} />;
-      case 4: return <Step4 onNext={handleNext} onPrev={handlePrev} />;
+      case 1: return <Step1 {...stepProps} />;
+      case 2: return <Step2 {...stepProps} />;
+      case 3: return <Step3 {...stepProps} />;
+      case 4: return <Step4 {...stepProps} />;
       case 5: return <Step5 />;
-      default: return <Step1 onNext={handleNext} />;
+      default: return <Step1 {...stepProps} />;
     }
   };
 
