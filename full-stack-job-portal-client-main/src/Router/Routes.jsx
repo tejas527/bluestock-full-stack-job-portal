@@ -20,7 +20,7 @@ import {
     EditProfile,
     ManageUsers,
     AdminManageJobs,
-} from "../pages";
+} from "../pages/index";
 
 import { JobContext } from "../context/JobContext";
 
@@ -28,6 +28,10 @@ import CommonProtectRoute from "../components/shared/CommonProtectRoute";
 import ProtectAdminRoute from "../components/shared/ProtectAdminRoute";
 import RecruiterRoute from "../components/shared/RecruiterRoute";
 import GoogleCallback from "../pages/GoogleCallback";
+
+import CompanyRegistrationLayout from "../Layout/CompanyRegistrationLayout";
+import { CompanyProvider } from "../context/CompanyContext";
+import Registration from "../components/CompanyRegistration/Registration";
 
 const router = createBrowserRouter([
     {
@@ -156,6 +160,14 @@ const router = createBrowserRouter([
                 ],
             },
         ],
+    },
+    {
+        path: "/companyregistration",
+        element: (
+            <CompanyProvider>
+                <Registration/>
+            </CompanyProvider>
+        ),
     },
 ]);
 

@@ -66,17 +66,13 @@ const FeaturedCompanies = () => {
           <div
             key={id}
             className="w-[240px] h-[300px] flex-shrink-0 rounded-2xl border border-gray-200 shadow-sm bg-white flex flex-col relative hover:-translate-y-1 hover:shadow-lg transition duration-200"
-            // Removed overflow-hidden
             >
-            {/* Floating logo circle */}
             <div className="mt-12 absolute -top-6 left-1/2 transform -translate-x-1/2 w-20 h-20 rounded-full bg-white border border-gray-300 flex items-center justify-center shadow-sm z-1">
                 <img src={icon} alt={company} className="w-17 h-17 object-contain bg-transparent" />
             </div>
 
-            {/* Colored tint background */}
             <div className="h-[80px] w-full rounded-t-2xl" style={{ backgroundColor: tint }}></div>
 
-            {/* Card Content */}
             <div className="px-4 pt-6 pb-4 flex flex-col text-center flex-grow mt-2">
                 <div className="bg-gray-100 px-3 py-2 rounded-lg mb-2">
                 <h3 className="text-sm font-semibold text-[#18191C] min-h-[40px] leading-tight">
